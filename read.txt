@@ -1,0 +1,18 @@
+--- Setup Project & Install Dependencies
+python -m venv venv
+source venv/bin/activate  # (Windows: venv\Scripts\activate)
+pip install fastapi uvicorn[standard] sqlalchemy[asyncio] asyncpg alembic passlib[bcrypt] python-jose[cryptography] pydantic[email]
+
+--- Jalankan Server :
+uvicorn app.main:app --reload
+
+--- Background Worker :
+"lokasi file -> app.celery_app.py"
+celery -A app.celery_app.celery worker --beat --loglevel=info
+
+--- Jalankan Redis di lokal (Docker cepat):
+docker run -d -p 6379:6379 redis
+
+--- Testing
+pip install pytest pytest-asyncio httpx
+pip install aiosqlite
